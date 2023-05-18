@@ -13,39 +13,28 @@ void swap(int *n1, int *n2);
  */
 void selection_sort(int *array, size_t size)
 {
-	size_t i, step, min_idx;
+	size_t i, j, min, temp;
 
 	if (array == NULL || size == 0)
 		return;
 
-	for (step = 0; step < size - 1; step++)
+	/* loop to access each array element */
+	for (i = 0; i < size - 1; i++)
 	{
-		min_idx = step;
-		for (i = step + 1; i < size; i++)
+		min = i;
+		for (j = i + 1; j < size; j++)		/* loop to access each array element */
 		{
-			/* Select the minimum element in each loop */
-			if (array[i] < array[min_idx])
-			min_idx = i;
+			if (array[j] < array[min])		/* Select the minimum element in each loop */
+				min = j;
 		}
 
-		/* put min at the correct position */
-		swap(&array[min_idx], &array[step]);
-		print_array(array, size);
+		if (min != i)
+		{
+			temp = array[i];
+			array[i] = array[min];
+			array[min] = temp;
+			print_array(array, size);
+		}
 	}
 
-}
-
-/**
- * swap - Helper function to swap two numbers
- *
- * @n1: First integer to be swapped
- * @n2: Second integer to be swapped
- *
- * Return: void
- */
-void swap(int *n1, int *n2)
-{
-	int aux = *n1;
-	*n1 = *n2;
-	*n2 = aux;
 }
