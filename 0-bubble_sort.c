@@ -13,6 +13,9 @@ void bubble_sort(int *array, size_t size)
 {
 	size_t i, step, aux;
 
+	if (array == NULL || size == 0)
+		return;
+
 	/* loop to access each array element */
 	for (step = 0; step < size - 1; step++)
 	{
