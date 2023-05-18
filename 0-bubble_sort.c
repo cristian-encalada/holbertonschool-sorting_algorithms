@@ -11,7 +11,7 @@
  */
 void bubble_sort(int *array, size_t size)
 {
-	size_t i, step, aux;
+	size_t i, step, aux, swap;
 
 	if (array == NULL || size == 0)
 		return;
@@ -19,6 +19,7 @@ void bubble_sort(int *array, size_t size)
 	/* loop to access each array element */
 	for (step = 0; step < size - 1; step++)
 	{
+		swap = 0;
 		/* loop to compare array elements */
 		for (i = 0; i < size - step - 1; i++)
 		{
@@ -29,8 +30,11 @@ void bubble_sort(int *array, size_t size)
 				aux = array[i];
 				array[i] = array[i + 1];
 				array[i + 1] = aux;
+				swap = 1;
 				print_array(array, size);
 			}
 		}
+		if (swap == 0)
+			break;
 	}
 }
