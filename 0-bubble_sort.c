@@ -11,7 +11,7 @@
  */
 void bubble_sort(int *array, size_t size)
 {
-	size_t i, i, temp, swap;
+	size_t i, j, temp, swap;
 
 	if (array == NULL || size == 0)
 		return;
@@ -34,6 +34,7 @@ void bubble_sort(int *array, size_t size)
 				print_array(array, size);
 			}
 		}
+
 		if (swap == 0)
 			break;
 	}
