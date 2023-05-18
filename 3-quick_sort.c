@@ -9,6 +9,7 @@
 void swap(int *a, int *b)
 {
 	int temp = *a;
+	
 	*a = *b;
 	*b = temp;
 }
@@ -24,10 +25,9 @@ void swap(int *a, int *b)
  */
 int lomuto_partition(int *array, int low, int high)
 {
-	int pivot = array[high];
-	int i = low;
+	int pivot = array[high], i = low, j;
 
-	for (int j = low; j <= high - 1; j++)
+	for (j = low; j <= high - 1; j++)
 	{
 		if (array[j] <= pivot)
 		{
@@ -51,12 +51,14 @@ int lomuto_partition(int *array, int low, int high)
  */
 void quicksort(int *array, int low, int high)
 {
+	int partition_i;
+
 	if (low < high)
 	{
-		int partition_index = lomuto_partition(array, low, high);
+		partition_i = lomuto_partition(array, low, high);
 
-		quicksort(array, low, partition_index - 1);
-		quicksort(array, partition_index + 1, high);
+		quicksort(array, low, partition_i - 1);
+		quicksort(array, partition_i + 1, high);
 	}
 }
 
