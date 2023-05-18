@@ -24,23 +24,31 @@ void swap(int *a, int *b)
  * 
  * Return: The partition index.
  */
-int lomuto_partition(int *array, int low, int high, size_t size)
+size_t partition(int *array, ssize_t low, ssize_t high, size_t size)
 {
-	int pivot = array[high], i = low, j;
+	ssize_t i, j;
+	int pivot;
 
-	for (j = low; j <= high - 1; j++)
+	pivot = array[high];
+	i = low - 1;
+	for (j = low; j < high; j++)
 	{
-		if (array[j] <= pivot)
+		if (array[j] < pivot)
 		{
-			swap(&array[i], &array[j]);
 			i++;
+			if (i != j)
+			{
+				swap(&array[i], &array[j]);
+				print_array(array, size);
+			}
 		}
 	}
-
-	swap(&array[i], &array[high]);
-	print_array(array, size);
-
-	return i;
+	if (array[high] < array[i + 1])
+	{
+		swap(&array[high], &array[i + 1]);
+		print_array(array, size);
+	}
+	return (i + 1);
 }
 
 /**
@@ -51,18 +59,18 @@ int lomuto_partition(int *array, int low, int high, size_t size)
  * @high: The ending index of the range to be sorted.
  * @size: The size of the array.
  */
-void quicksort(int *array, int low, int high, size_t size)
+void quicksort(int *array, ssize_t low, ssize_t high, size_t size)
 {
-	int partition_i;
+	ssize_t pivot;
 
 	if (low < high)
 	{
-		partition_i = lomuto_partition(array, low, high, size);
-
-		quicksort(array, low, partition_i - 1, size);
-		quicksort(array, partition_i + 1, high, size);
+		pivot = partition(array, low, high, size);
+		quicksort(array, low, pivot - 1, size);
+		quicksort(array, pivot + 1, high, size);
 	}
 }
+
 
 /**
  * quick_sort - Sorts an array of integers in ascending order
