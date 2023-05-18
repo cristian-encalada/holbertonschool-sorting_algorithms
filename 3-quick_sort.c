@@ -2,29 +2,29 @@
 
 /**
  * swap - Swaps two integers.
- * 
+ *
  * @a: The first integer.
  * @b: The second integer.
  */
 void swap(int *a, int *b)
 {
 	int temp = *a;
-	
+
 	*a = *b;
 	*b = temp;
 }
 
 /**
  * lomuto_partition - Lomuto partition scheme.
- * 
+ *
  * @array: The array to be partitioned.
  * @low: The starting index of the partition range.
  * @high: The ending index of the partition range.
  * @size: The size of the array.
- * 
+ *
  * Return: The partition index.
  */
-size_t partition(int *array, ssize_t low, ssize_t high, size_t size)
+size_t lomuto_partition(int *array, ssize_t low, ssize_t high, size_t size)
 {
 	ssize_t i, j;
 	int pivot;
@@ -53,7 +53,7 @@ size_t partition(int *array, ssize_t low, ssize_t high, size_t size)
 
 /**
  * quicksort - Recursive function to perform quicksort.
- * 
+ *
  * @array: The array to be sorted.
  * @low: The starting index of the range to be sorted.
  * @high: The ending index of the range to be sorted.
@@ -65,7 +65,7 @@ void quicksort(int *array, ssize_t low, ssize_t high, size_t size)
 
 	if (low < high)
 	{
-		pivot = partition(array, low, high, size);
+		pivot = lomuto_partition(array, low, high, size);
 		quicksort(array, low, pivot - 1, size);
 		quicksort(array, pivot + 1, high, size);
 	}
@@ -75,7 +75,7 @@ void quicksort(int *array, ssize_t low, ssize_t high, size_t size)
 /**
  * quick_sort - Sorts an array of integers in ascending order
  *							using the QuickSort algorithm.
- * 
+ *
  * @array: The array to be sorted.
  * @size: The number of elements in the array.
  */
