@@ -13,24 +13,34 @@ void swap(int *n1, int *n2);
  */
 void shell_sort(int *array, size_t size)
 {
-	size_t i, j, interval, temp;
+	int i, j, temp;
+	size_t interval = 1;
 
 	if (array == NULL || size == 0)
 		return;
 
-	/* Rearrange elements at each n/2, n/4, n/8, ... intervals */
-	for (interval = size / 2; interval > 0; interval /= 2)
+	/* Calculate the initial interval using Knuth's sequence */
+	while (interval < size / 3)
+		interval = interval * 3 + 1;
+
+	while (interval > 0)
 	{
-		for (i = interval; i < size; i += 1)
+		for (i = interval; i < (int)size; i++)
 		{
 			temp = array[i];
+			j = i;
 
-			for (j = i; j >= interval && array[j - interval] > (int)temp; j -= interval)
+			while (j >= (int)interval && array[j - interval] > temp)
 			{
 				array[j] = array[j - interval];
-				print_array(array, size);
+				j -= interval;
 			}
+
 			array[j] = temp;
 		}
+
+		interval = (interval - 1) / 3;
+		print_array(array, size);
 	}
 }
+
