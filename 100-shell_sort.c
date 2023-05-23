@@ -16,7 +16,7 @@ void shell_sort(int *array, size_t size)
 	int i, j, temp;
 	size_t interval = 1;
 
-	if (array == NULL || size == 0)
+	if (array == NULL || size <= 1)
 		return;
 
 	/* Calculate the initial interval using Knuth's sequence */
