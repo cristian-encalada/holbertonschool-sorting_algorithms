@@ -26,8 +26,8 @@ void counting_sort(int *array, size_t size)
 	count = malloc((max + 1) * sizeof(int));
 	if (count == NULL)
 	{
-		return;
 		free(output);
+		return;
 	}
 	/* Initialize all the elements of the count array to 0 */
 	for (i = 0; i <= max; i++)
@@ -38,6 +38,7 @@ void counting_sort(int *array, size_t size)
 	/* Update the count array by adding the count of the previous element */
 	for (i = 1; i <= max; i++)
 		count[i] += count[i - 1];
+	print_array(count, max + 1);
 	/* Place each element in its correct position in the output array */
 	for (i = size - 1; i >= 0; i--)
 	{
@@ -47,8 +48,6 @@ void counting_sort(int *array, size_t size)
 	/* Copy the sorted elements from the output array back to the input array */
 	for (i = 0; i < (int)size; i++)
 		array[i] = output[i];
-
-	print_array(count, max + 1);
 	free(output);
 	free(count);
 }
