@@ -12,9 +12,10 @@
 void counting_sort(int *array, size_t size)
 {
 	int *output, *count;	/* auxiliar arrays */
-	int i, max;
+	int i, max = array[0];
 
-	max = array[0];
+	if (array == NULL || size == 0)
+		return;
 	for (i = 1; i < (int)size; i++)	/* Find the max value in the input array */
 	{
 		if (array[i] > max)
@@ -29,16 +30,14 @@ void counting_sort(int *array, size_t size)
 		free(output);
 		return;
 	}
-	/* Initialize all the elements of the count array to 0 */
-	for (i = 0; i <= max; i++)
+	for (i = 0; i <= max; i++) /* Initialize elements of the count array to 0 */
 		count[i] = 0;
-	/* Increment the count for each encountered element */
-	for (i = 0; i < (int)size; i++)
+	for (i = 0; i < (int)size; i++) /* Increment count for each element found */
 		count[array[i]]++;
-	/* Update the count array by adding the count of the previous element */
-	for (i = 1; i <= max; i++)
+	for (i = 1; i <= max; i++)	/* Add the count of the previous element */
 		count[i] += count[i - 1];
-	print_array(count, max + 1);
+	if (max > 1)
+		print_array(count, max + 1);
 	/* Place each element in its correct position in the output array */
 	for (i = size - 1; i >= 0; i--)
 	{
