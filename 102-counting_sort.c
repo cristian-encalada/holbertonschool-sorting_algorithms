@@ -12,10 +12,11 @@
 void counting_sort(int *array, size_t size)
 {
 	int *output, *count;	/* auxiliar arrays */
-	int i, max = array[0];
+	int i, max;
 
 	if (array == NULL || size == 0)
 		return;
+	max = array[0];
 	for (i = 1; i < (int)size; i++)	/* Find the max value in the input array */
 	{
 		if (array[i] > max)
