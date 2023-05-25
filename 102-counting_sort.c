@@ -8,13 +8,16 @@
  *
  * @array: The array to be printed
  * @size: Number of elements in @array
+ *
+ * Assume that array will contain only numbers >= 0
  */
 void counting_sort(int *array, size_t size)
 {
 	char output[size];
-	int *count = (int *)malloc((MAX_VALUE + 1) * sizeof(int));
+	int *count;
 	int i;
 
+	count = (int *)malloc((MAX_VALUE + 1) * sizeof(int));
 	if (count == NULL)
 	{
 		fprintf(stderr, "Failed to allocate memory\n");
