@@ -1,6 +1,11 @@
 #include "sort.h"
 
-void swap_nodes(listint_t **list, listint_t *node1, listint_t *node2);
+#define INCREMENT 1
+#define DECREMENT -1
+
+listint_t *dlistint_last(listint_t *h);
+void swap_nodes(listint_t **list, listint_t *node);
+
 /**
  * cocktail_sort_list - Sorts a doubly linked list of integers
  *                     in ascending order using Cocktail shaker sort
@@ -9,76 +14,87 @@ void swap_nodes(listint_t **list, listint_t *node1, listint_t *node2);
  */
 void cocktail_sort_list(listint_t **list)
 {
-	int swapped;
-	int checks;
-	int left = 0;
-	int right = 0;
-	listint_t *temp;
+	listint_t *current = NULL, *left_limit = NULL, *right_limit = NULL;
+	int cycle = INCREMENT;
 
 	if (!list || !(*list) || !(*list)->next)
 		return;
 
-	temp = *list;
-	do {
-		swapped = 0;
+	current = *list;
+	left_limit = current;
+	right_limit = dlistint_last(*list);
 
-		/* Forward pass */
-		for (checks = 0; temp->next && checks < right; checks++)
-		{
-			if (temp->next->n < temp->n)
-			{
-				swap_nodes(list, temp, temp->next);
-				swapped = 1;
-			}
-			else
-				temp = temp->next;
-		}
-		right = checks;
-		temp = temp->prev; /* Update temp to the last swapped node */
-
-		if (!swapped)
+	while (left_limit != right_limit)
+	{
+		if (current->n == current->next->n)
 			break;
+		else if (current->n > current->next->n && cycle == INCREMENT)
+			swap_nodes(list, current), print_list(*list);
+		else if (current->next->n < current->n && cycle == DECREMENT)
+			swap_nodes(list, current), current = current->prev, print_list(*list);
+		else if (cycle == INCREMENT)
+			current = current->next;
+		else if (cycle == DECREMENT)
+			current = current->prev;
 
-		/* Backward pass */
-		swapped = 0;
-		for (checks = 0; temp->prev && checks < left; checks++)
+		if (cycle == DECREMENT && current->next == left_limit)
 		{
-			if (temp->n < temp->prev->n)
-			{
-				swap_nodes(list, temp->prev, temp);
-				swapped = 1;
-			}
-			else
-				temp = temp->prev;
+			cycle = INCREMENT;
+			current = current->next;
 		}
-		left = checks;
-		temp = temp->next; /* Update temp to the last swapped node */
 
-	} while (swapped);
+		if (cycle == INCREMENT && current->prev == right_limit)
+		{
+			right_limit = right_limit->prev;
+			cycle = DECREMENT;
+			current = current->prev;
+		}
+	}
+}
+
+/**
+  * dlistint_last - Gets the last element of a doubly linked list
+  * @head: The doubly linked list
+  *
+  * Return: The last element of the doubly linked list
+  */
+listint_t *dlistint_last(listint_t *head)
+{
+	listint_t *last_node = head;
+
+	while (last_node->next != NULL)
+		last_node = last_node->next;
+
+	return (last_node);
 }
 
 /**
  * swap_nodes - Swaps two nodes in a doubly linked list
  *
  * @list: Pointer to a pointer to the first element of the list
- * @node1: First node to be swapped
- * @node2: Second node to be swapped
+ * @node: First node to be swapped
  */
-void swap_nodes(listint_t **list, listint_t *node1, listint_t *node2)
+void swap_nodes(listint_t **list, listint_t *node)
 {
-	listint_t *swap;
+	listint_t *prev_node = node->prev;
+	listint_t *next_node = node->next;
 
-	if (node1->prev)
-		node1->prev->next = node2;
+	if (prev_node)
+		prev_node->next = next_node;
 	else
-		*list = node2;
-	if (node2->next)
-		node2->next->prev = node1;
-	node2->prev = node1->prev;
-	node1->prev = node2;
-	swap = node2;
-	node1->next = node2->next;
-	swap->next = node1;
+		*list = next_node;
 
-	print_list(*list);
+	if (next_node)
+		next_node->prev = prev_node;
+
+	node->prev = next_node;
+	if (next_node)
+		node->next = next_node->next;
+	else
+		node->next = NULL;
+
+	if (node->prev)
+		node->prev->next = node;
+	if (node->next)
+		node->next->prev = node;
 }
