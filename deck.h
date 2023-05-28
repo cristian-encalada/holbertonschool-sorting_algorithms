@@ -3,9 +3,9 @@
 
 /* header files */
 
-#include <stdlib.h>
-#include <stdio.h>
-#include <stddef.h> /* to use size_t */
+#include <stdio.h>	/* to use qsort */
+#include <stdlib.h>	/* to use qsort */
+#include <string.h> /* to use strcmp */
 
 /* auxiliar structures */
 
